@@ -1,0 +1,180 @@
+<div class="auth-wrapper">
+  <div class="auth-card card animate-fade-in">
+
+    <div class="auth-header">
+      <div class="brand-logo-container-auth">
+        <img src="assets/logo.png" alt="TVM Logo" class="brand-logo-file-auth" />
+      </div>
+      <p class="auth-subtitle">HR Document Portal Access</p>
+    </div>
+
+    <div class="auth-tabs" *ngIf="step() === 'form'">
+      <button
+        type="button"
+        class="tab-btn active"
+        style="width: 100%; border-radius: var(--radius-md); text-align: center;"
+      >
+        Sign In
+      </button>
+    </div>
+
+    <div
+      class="alert-banner"
+      *ngIf="alertMessage()"
+      [ngClass]="alertType() === 'error' ? 'alert-danger' : 'alert-success'"
+    >
+      <i class="fa-solid" [ngClass]="alertType() === 'error' ? 'fa-circle-xmark' : 'fa-circle-check'"></i>
+      <span>{{ alertMessage() }}</span>
+    </div>
+
+    <div *ngIf="step() === 'form'">
+
+      <div *ngIf="mode() === 'login'">
+        <form (submit)="onSubmitForm()">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input
+                type="email"
+                id="login-email"
+                class="form-control pad-left"
+                placeholder="hr@tvminfotech.com"
+                [(ngModel)]="email"
+                name="email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="d-flex justify-content-between align-items-center">
+              <label class="form-label" for="login-pass">Password</label>
+              <a class="forgot-link" (click)="setMode('forgot')">Forgot Password?</a>
+            </div>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input
+                type="password"
+                id="login-pass"
+                class="form-control pad-left"
+                placeholder="••••••••"
+                [(ngModel)]="password"
+                name="password"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block mt-3" [disabled]="loading()">
+            <span *ngIf="!loading()">
+              <i class="fa-solid fa-right-to-bracket"></i> Sign In
+            </span>
+            <span *ngIf="loading()">
+              <i class="fa-solid fa-spinner fa-spin"></i> Signing In...
+            </span>
+          </button>
+
+          <div class="text-center mt-3" style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+            Don't have an account? 
+            <a (click)="navigateToRegister.emit()" style="color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none;">Sign Up</a>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="mode() === 'forgot'" class="animate-fade-in">
+        <h4 class="forgot-title">Reset Your Password</h4>
+        <p class="forgot-desc">Enter your email address and we'll send you an OTP code to reset your password.</p>
+
+        <form (submit)="onSubmitForm()">
+          <div class="form-group">
+            <label class="form-label" for="forgot-email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input
+                type="email"
+                id="forgot-email"
+                class="form-control pad-left"
+                placeholder="hr@tvminfotech.com"
+                [(ngModel)]="email"
+                name="email"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block mt-3" [disabled]="loading()">
+            <span *ngIf="!loading()">
+              <i class="fa-solid fa-paper-plane"></i> Send Reset Code
+            </span>
+            <span *ngIf="loading()">
+              <i class="fa-solid fa-spinner fa-spin"></i> Contacting SMTP...
+            </span>
+          </button>
+
+          <button type="button" class="btn btn-outline btn-block btn-sm mt-2" (click)="setMode('login')">
+            <i class="fa-solid fa-arrow-left"></i> Back to Sign In
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <div *ngIf="step() === 'otp'" class="otp-verification animate-fade-in">
+      <div class="otp-instruction">
+        <div class="otp-icon-wrapper">
+          <i class="fa-solid fa-envelope-open-text"></i>
+        </div>
+        <h4>Check Your Email</h4>
+        <p>We've sent a 6-digit passcode to <strong>{{ email }}</strong>. Enter it below to proceed.</p>
+      </div>
+
+      <form (submit)="onSubmitOTP()">
+        <div class="form-group">
+          <label class="form-label" style="text-align: center; display: block;">6-Digit OTP Verification Code</label>
+          <input
+            type="text"
+            class="form-control otp-box"
+            maxlength="6"
+            placeholder="123456"
+            [(ngModel)]="otpCode"
+            name="otpCode"
+            required
+            autofocus
+            style="text-align: center; font-size: 1.5rem; letter-spacing: 4px; font-weight: 700;"
+          />
+        </div>
+
+        <div class="form-group" *ngIf="mode() === 'forgot'">
+          <label class="form-label" for="reset-pass">Enter New Password</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input
+              type="password"
+              id="reset-pass"
+              class="form-control pad-left"
+              placeholder="••••••••"
+              [(ngModel)]="password"
+              name="password"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-secondary btn-block mt-3" [disabled]="loading()">
+          <span *ngIf="!loading()">
+            <i class="fa-solid fa-rotate"></i> Reset Password
+          </span>
+          <span *ngIf="loading()">
+            <i class="fa-solid fa-spinner fa-spin"></i> Resetting...
+          </span>
+        </button>
+
+        <button type="button" class="btn btn-outline btn-block btn-sm mt-2" (click)="resetToForm()">
+          <i class="fa-solid fa-angle-left"></i> Change details / Back
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>

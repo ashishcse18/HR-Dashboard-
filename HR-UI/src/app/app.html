@@ -1,0 +1,263 @@
+<!-- If User is Authenticated, Show Portal -->
+<div class="app-layout" [class.sidebar-active]="sidebarOpen()" *ngIf="authService.isAuthenticated()">
+
+  <div class="sidebar-backdrop" *ngIf="sidebarOpen()" (click)="toggleSidebar()"></div>
+
+]  <aside class="app-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo-round">
+        <img src="assets/logo.png" alt="TVM Logo" />
+      </div>
+      <div class="brand-text">
+        <h2>TVM Infotech</h2>
+        <span>HR Doc Engine</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a class="menu-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+      </a>
+      <a class="menu-item" [class.active]="activeTab() === 'folders'" (click)="selectTab('folders')">
+        <i class="fa-solid fa-folder-tree"></i>
+        <span>Folder Templates</span>
+      </a>
+      <a class="menu-item" [class.active]="activeTab() === 'upload'" (click)="selectTab('upload')">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>Upload & Edit</span>
+      </a>
+
+      <div class="menu-divider" *ngIf="docService.selectedTemplateId() || docService.isUploadedDocument()"></div>
+
+      <a
+        class="menu-item pulse-item"
+        *ngIf="docService.selectedTemplateId() || docService.isUploadedDocument()"
+        [class.active]="activeTab() === 'editor'"
+        (click)="selectTab('editor')"
+      >
+        <i class="fa-solid fa-file-pen text-secondary"></i>
+        <span class="active-doc-link">Active Editor</span>
+        <span class="pulse-dot"></span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile justify-content-between d-flex align-items-center width-full">
+        <div class="d-flex align-items-center gap-2">
+          <input type="file" #avatarInput style="display: none;" accept="image/*" (change)="onAvatarSelected($event)" />
+          <div class="avatar avatar-clickable" (click)="avatarInput.click()" title="Click to upload profile photo">
+            <img
+              *ngIf="authService.currentUser()?.avatar"
+              [src]="authService.currentUser()?.avatar"
+              alt="Avatar Image"
+              class="avatar-img-file"
+            />
+            <span *ngIf="!authService.currentUser()?.avatar">
+              {{ authService.currentUser()?.name?.substring(0, 2)?.toUpperCase() || 'HR' }}
+            </span>
+          </div>
+          <div class="user-info">
+            <h4 class="truncate-text">{{ authService.currentUser()?.name }}</h4>
+            <span class="truncate-text">{{ authService.currentUser()?.email }}</span>
+          </div>
+        </div>
+        <button class="logout-btn" (click)="logout()" title="Logout from System">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="app-main-panel">
+
+    <header class="app-header">
+      <div class="header-left">
+        <button class="mobile-hamburger-btn" (click)="toggleSidebar()" title="Toggle Sidebar">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="search-bar">
+          <i class="fa-solid fa-magnifying-glass" (click)="triggerSearch()" style="cursor: pointer;"></i>
+          <input
+            type="text"
+            [value]="docService.searchQuery()"
+            (input)="onSearch($event)"
+            (keyup.enter)="triggerSearch()"
+            placeholder="Search templates, guidelines, employees..."
+          />
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="header-date">
+          <i class="fa-solid fa-calendar-days"></i>
+          June 30, 2026
+        </span>
+      </div>
+    </header>
+
+    <div class="app-content-body">
+
+      @if (activeTab() === 'dashboard') {
+        <div class="tab-content animate-fade-in">
+
+          <div class="welcome-banner">
+            <div class="banner-text">
+              <h1>Welcome Back, {{ authService.currentUser()?.name || 'HR Team' }}!</h1>
+              <p>Generate, edit, and export corporate letters and payslips for TVM Infotech team members. Select from directories or import external templates.</p>
+            </div>
+            <div class="banner-graphic">
+              <i class="fa-solid fa-chart-line-up"></i>
+            </div>
+          </div>
+
+          <div class="grid-4 mt-4">
+            <div class="stat-card card card-hover">
+              <div class="stat-icon bg-primary-light text-primary">
+                <i class="fa-solid fa-folder"></i>
+              </div>
+              <div class="stat-data">
+                <h3>{{ stats().totalFolders }}</h3>
+                <p>Company Folders</p>
+              </div>
+            </div>
+            <div class="stat-card card card-hover">
+              <div class="stat-icon bg-secondary-light text-secondary">
+                <i class="fa-solid fa-file-word"></i>
+              </div>
+              <div class="stat-data">
+                <h3>{{ stats().totalTemplates }}</h3>
+                <p>HR Templates</p>
+              </div>
+            </div>
+            <div class="stat-card card card-hover">
+              <div class="stat-icon bg-success-light text-success">
+                <i class="fa-solid fa-download"></i>
+              </div>
+              <div class="stat-data">
+                <h3>{{ stats().totalDownloads }}</h3>
+                <p>Total Downloads</p>
+              </div>
+            </div>
+            <div class="stat-card card card-hover">
+              <div class="stat-icon bg-warning-light text-warning">
+                <i class="fa-solid fa-file-pen"></i>
+              </div>
+              <div class="stat-data">
+                <h3>{{ stats().recentEdits }}</h3>
+                <p>Modified Today</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid mt-4">
+            <div class="activities-card card">
+              <div class="card-header justify-content-between d-flex align-items-center">
+                <h3>Recent Generated Documents</h3>
+                <div class="d-flex align-items-center gap-2">
+                  <button
+                    *ngIf="docService.activityLog().length > 0"
+                    class="btn btn-sm btn-outline text-danger"
+                    (click)="clearActivityLog()"
+                    style="padding: 2px 8px; font-size: 11px; border-radius: 4px; border-color: rgba(229, 62, 62, 0.3);"
+                  >
+                    <i class="fa-solid fa-trash-can"></i> Clear Logs
+                  </button>
+                  <span class="badge badge-primary">Log History</span>
+                </div>
+              </div>
+              <div class="activities-list mt-3">
+                @for (activity of recentActivities(); track activity.text) {
+                  <div class="activity-item">
+                    <div class="activity-icon" [ngClass]="'type-' + activity.type">
+                      <i class="fa-solid" [ngClass]="activity.icon"></i>
+                    </div>
+                    <div class="activity-info">
+                      <h4>{{ activity.text }}</h4>
+                      <span>{{ activity.time }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="actions-card card">
+              <h3>Quick Actions</h3>
+              <p class="subtitle">Frequently used HR operations</p>
+
+              <div class="quick-links mt-3">
+                <button class="action-link-btn" (click)="navigateToFolders()">
+                  <span class="action-icon bg-primary-light text-primary">
+                    <i class="fa-solid fa-file-signature"></i>
+                  </span>
+                  <div class="action-meta">
+                    <h4>Select TVM Template</h4>
+                    <p>Open corporate offer, relieving, or service letters</p>
+                  </div>
+                  <i class="fa-solid fa-chevron-right arrow"></i>
+                </button>
+
+                <button class="action-link-btn" (click)="navigateToFolders()">
+                  <span class="action-icon bg-success-light text-success">
+                    <i class="fa-solid fa-receipt"></i>
+                  </span>
+                  <div class="action-meta">
+                    <h4>Compute Monthly Payslip</h4>
+                    <p>Calculate basic, deductions, and print take-home slips</p>
+                  </div>
+                  <i class="fa-solid fa-chevron-right arrow"></i>
+                </button>
+
+                <button class="action-link-btn" (click)="navigateToUpload()">
+                  <span class="action-icon bg-secondary-light text-secondary">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                  </span>
+                  <div class="action-meta">
+                    <h4>Upload Word / PDF File</h4>
+                    <p>Convert external documents to inline editable text</p>
+                  </div>
+                  <i class="fa-solid fa-chevron-right arrow"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (activeTab() === 'folders') {
+        <div class="tab-content">
+          <app-folder-list></app-folder-list>
+          <app-document-type></app-document-type>
+          <app-template-list
+            (selectTemplate)="onTemplateSelected()"
+            (triggerUploadNavigation)="navigateToUpload()"
+          ></app-template-list>
+        </div>
+      }
+
+      @if (activeTab() === 'upload') {
+        <div class="tab-content">
+          <app-upload-document (onUploadSuccess)="onUploadCompleted()"></app-upload-document>
+        </div>
+      }
+
+      <!-- Tab 4: Inline Editor -->
+      @if (activeTab() === 'editor') {
+        <div class="tab-content editor-tab">
+          <app-online-editor (triggerPreview)="togglePreview(true)" (navigateBack)="selectTab('folders')"></app-online-editor>
+        </div>
+      }
+
+    </div>
+  </main>
+</div>
+
+<div *ngIf="!authService.isAuthenticated()">
+  <app-auth *ngIf="!isRegistering()" (navigateToRegister)="isRegistering.set(true)"></app-auth>
+  <app-signup *ngIf="isRegistering()" (navigateToLogin)="isRegistering.set(false)"></app-signup>
+</div>
+
+<app-preview
+  [isOpen]="previewOpen"
+  [htmlContent]="activeHtmlContent"
+  (close)="togglePreview(false)"
+></app-preview>

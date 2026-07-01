@@ -1,0 +1,202 @@
+<div class="editor-container animate-fade-in">
+
+  <div class="editor-toolbar card">
+    <div class="toolbar-left">
+      <button class="btn btn-outline btn-sm" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i> Folders
+      </button>
+      <div class="divider"></div>
+      <span class="doc-title-text">{{ docService.activeTemplateName() }}</span>
+    </div>
+
+    <div class="toolbar-center">
+      <button class="tool-btn" title="Bold" (click)="execCommand('bold')">
+        <i class="fa-solid fa-bold"></i>
+      </button>
+      <button class="tool-btn" title="Italic" (click)="execCommand('italic')">
+        <i class="fa-solid fa-italic"></i>
+      </button>
+      <button class="tool-btn" title="Underline" (click)="execCommand('underline')">
+        <i class="fa-solid fa-underline"></i>
+      </button>
+      <div class="divider-sm"></div>
+      <button class="tool-btn" title="Align Left" (click)="execCommand('justifyLeft')">
+        <i class="fa-solid fa-align-left"></i>
+      </button>
+      <button class="tool-btn" title="Align Center" (click)="execCommand('justifyCenter')">
+        <i class="fa-solid fa-align-center"></i>
+      </button>
+      <button class="tool-btn" title="Align Right" (click)="execCommand('justifyRight')">
+        <i class="fa-solid fa-align-right"></i>
+      </button>
+      <div class="divider-sm"></div>
+      <button class="tool-btn" title="Insert Table" (click)="insertTable()">
+        <i class="fa-solid fa-table"></i>
+      </button>
+      <button class="tool-btn text-danger" title="Clear Formatting" (click)="execCommand('removeFormat')">
+        <i class="fa-solid fa-eraser"></i>
+      </button>
+    </div>
+
+    <div class="toolbar-right">
+      <div class="zoom-controls">
+        <button class="zoom-btn" (click)="adjustZoom(-10)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <span class="zoom-text">{{ zoom }}%</span>
+        <button class="zoom-btn" (click)="adjustZoom(10)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+      </div>
+
+      <button class="btn btn-outline btn-sm" (click)="triggerPreview.emit()">
+        <i class="fa-solid fa-eye"></i> Preview
+      </button>
+
+      <div class="download-dropdown">
+        <button class="btn btn-primary btn-sm" (click)="toggleDropdown()">
+          <i class="fa-solid fa-download"></i> Download <i class="fa-solid fa-chevron-down text-xs"></i>
+        </button>
+
+        <div class="dropdown-menu" *ngIf="dropdownOpen">
+          <a class="dropdown-item" (click)="downloadPDF()">
+            <i class="fa-solid fa-file-pdf text-danger"></i> Download PDF Document
+          </a>
+          <a class="dropdown-item" (click)="downloadWordHTML()">
+            <i class="fa-solid fa-file-word text-primary"></i> Download MS Word (.doc)
+          </a>
+          <a class="dropdown-item" (click)="downloadNativeDocx()" *ngIf="!docService.isUploadedDocument()">
+            <i class="fa-solid fa-file-invoice text-secondary"></i> Download Native DOCX
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="editor-workspace">
+
+    <div class="form-panel card">
+      <div class="panel-header">
+        <h3>Document Fields</h3>
+        <p>Fill in the variables below to update the document</p>
+      </div>
+
+      <div class="panel-body">
+        @if (getVariablesList().length === 0) {
+          <div class="no-fields">
+            <i class="fa-solid fa-circle-info"></i>
+            <p>No dynamic variables detected in this document. You can type directly in the editor on the right.</p>
+          </div>
+        } @else {
+          <form (submit)="$event.preventDefault()">
+            @for (key of getVariablesList(); track key) {
+              <div class="form-group">
+                <label class="form-label" [for]="key">{{ formatLabel(key) }}</label>
+
+                @if (isDateField(key)) {
+                  <input
+                    type="date"
+                    [id]="key"
+                    class="form-control"
+                    [ngModel]="docService.activeVariables()[key]"
+                    (ngModelChange)="onVariableChange(key, $event)"
+                    [name]="key"
+                  />
+                } @else if (isNumberField(key)) {
+                  <input
+                    type="number"
+                    [id]="key"
+                    class="form-control"
+                    [ngModel]="docService.activeVariables()[key]"
+                    (ngModelChange)="onVariableChange(key, $event)"
+                    [name]="key"
+                  />
+                } @else if (key === 'terms' || key === 'companyAddress') {
+                  <textarea
+                    [id]="key"
+                    class="form-control"
+                    rows="3"
+                    [ngModel]="docService.activeVariables()[key]"
+                    (ngModelChange)="onVariableChange(key, $event)"
+                    [name]="key"
+                  ></textarea>
+                } @else {
+                  <input
+                    type="text"
+                    [id]="key"
+                    class="form-control"
+                    [ngModel]="docService.activeVariables()[key]"
+                    (ngModelChange)="onVariableChange(key, $event)"
+                    [name]="key"
+                  />
+                }
+              </div>
+            }
+          </form>
+        }
+      </div>
+
+      <div class="panel-footer" *ngIf="docService.selectedTypeId() === 'payslip'">
+
+        <div class="payslip-row-adder" style="margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px dashed rgba(89, 116, 163, 0.2);">
+          <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
+            <i class="fa-solid fa-square-plus"></i> Add Row Particular
+          </h4>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="e.g. Medical Allowance"
+              [(ngModel)]="newParticularName"
+              name="newParticularName"
+              style="font-size: 0.8rem; padding: 6px 10px; min-height: auto; height: 32px;"
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 0.75rem;">
+            <select
+              class="form-control"
+              [(ngModel)]="newParticularType"
+              name="newParticularType"
+              style="font-size: 0.8rem; padding: 6px 10px; min-height: auto; height: 32px;"
+            >
+              <option value="earning">Earning Particular</option>
+              <option value="deduction">Deduction Particular</option>
+            </select>
+          </div>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm btn-block"
+            (click)="addParticularRow()"
+            style="font-size: 0.8rem; padding: 6px; width: 100%;"
+          >
+            <i class="fa-solid fa-plus"></i> Add Particular
+          </button>
+        </div>
+
+        <div class="payslip-calculator">
+          <h4><i class="fa-solid fa-calculator"></i> Payslip Auto-Calculator</h4>
+          <div class="calc-row">
+            <span>Total Earnings:</span>
+            <strong class="text-success">INR {{ totalEarnings }}</strong>
+          </div>
+          <div class="calc-row">
+            <span>Total Deductions:</span>
+            <strong class="text-danger">INR {{ totalDeductions }}</strong>
+          </div>
+          <div class="calc-row grand-total">
+            <span>Net Pay:</span>
+            <strong class="text-primary">INR {{ netSalary }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="paper-sandbox">
+      <div
+        #pageElement
+        id="editor-sheet-print"
+        class="paper-sheet"
+        contenteditable="true"
+        (input)="onEditorInput($event)"
+        [style.transform]="'scale(' + (zoom / 100) + ')'"
+        [style.transform-origin]="'top center'"
+      ></div>
+    </div>
+  </div>
+</div>
