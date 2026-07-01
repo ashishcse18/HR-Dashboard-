@@ -15,7 +15,9 @@
   z-index: 10;
 }
 
-.toolbar-left, .toolbar-center, .toolbar-right {
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -133,7 +135,9 @@
   color: var(--primary);
 }
 
-.text-xs { font-size: 0.7rem; }
+.text-xs {
+  font-size: 0.7rem;
+}
 
 .editor-workspace {
   display: flex;
@@ -232,7 +236,7 @@
   width: 210mm;
   min-height: 297mm; /* A4 height */
   background-color: var(--white);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   padding: 15mm 10mm;
   outline: none;
   box-sizing: border-box;

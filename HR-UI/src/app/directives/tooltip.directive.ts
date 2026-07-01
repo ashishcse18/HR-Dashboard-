@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostListener, Input, Renderer2, inject } from '@
 
 @Directive({
   selector: '[appTooltip]',
-  standalone: true
+  standalone: true,
 })
 export class TooltipDirective {
   @Input('appTooltip') tooltipTitle = '';
@@ -22,10 +22,7 @@ export class TooltipDirective {
 
   private showTooltip() {
     this.tooltipEl = this.renderer.createElement('span');
-    this.renderer.appendChild(
-      this.tooltipEl,
-      this.renderer.createText(this.tooltipTitle)
-    );
+    this.renderer.appendChild(this.tooltipEl, this.renderer.createText(this.tooltipTitle));
 
     this.renderer.appendChild(document.body, this.tooltipEl);
     this.renderer.addClass(this.tooltipEl, 'app-tooltip-bubble');

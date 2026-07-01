@@ -1,6 +1,5 @@
 <div class="auth-wrapper">
   <div class="auth-card card animate-fade-in">
-
     <div class="auth-header">
       <div class="brand-logo-container-auth">
         <img src="assets/logo.png" alt="TVM Logo" class="brand-logo-file-auth" />
@@ -12,7 +11,7 @@
       <button
         type="button"
         class="tab-btn active"
-        style="width: 100%; border-radius: var(--radius-md); text-align: center;"
+        style="width: 100%; border-radius: var(--radius-md); text-align: center"
       >
         Sign In
       </button>
@@ -23,12 +22,14 @@
       *ngIf="alertMessage()"
       [ngClass]="alertType() === 'error' ? 'alert-danger' : 'alert-success'"
     >
-      <i class="fa-solid" [ngClass]="alertType() === 'error' ? 'fa-circle-xmark' : 'fa-circle-check'"></i>
+      <i
+        class="fa-solid"
+        [ngClass]="alertType() === 'error' ? 'fa-circle-xmark' : 'fa-circle-check'"
+      ></i>
       <span>{{ alertMessage() }}</span>
     </div>
 
     <div *ngIf="step() === 'form'">
-
       <div *ngIf="mode() === 'login'">
         <form (submit)="onSubmitForm()">
           <div class="form-group">
@@ -67,24 +68,36 @@
           </div>
 
           <button type="submit" class="btn btn-primary btn-block mt-3" [disabled]="loading()">
-            <span *ngIf="!loading()">
-              <i class="fa-solid fa-right-to-bracket"></i> Sign In
-            </span>
+            <span *ngIf="!loading()"> <i class="fa-solid fa-right-to-bracket"></i> Sign In </span>
             <span *ngIf="loading()">
               <i class="fa-solid fa-spinner fa-spin"></i> Signing In...
             </span>
           </button>
 
-          <div class="text-center mt-3" style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
-            Don't have an account? 
-            <a (click)="navigateToRegister.emit()" style="color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none;">Sign Up</a>
+          <div
+            class="text-center mt-3"
+            style="font-size: 0.85rem; color: var(--text-secondary); text-align: center"
+          >
+            Don't have an account?
+            <a
+              (click)="navigateToRegister.emit()"
+              style="
+                color: var(--primary);
+                font-weight: 700;
+                cursor: pointer;
+                text-decoration: none;
+              "
+              >Sign Up</a
+            >
           </div>
         </form>
       </div>
 
       <div *ngIf="mode() === 'forgot'" class="animate-fade-in">
         <h4 class="forgot-title">Reset Your Password</h4>
-        <p class="forgot-desc">Enter your email address and we'll send you an OTP code to reset your password.</p>
+        <p class="forgot-desc">
+          Enter your email address and we'll send you an OTP code to reset your password.
+        </p>
 
         <form (submit)="onSubmitForm()">
           <div class="form-group">
@@ -112,12 +125,15 @@
             </span>
           </button>
 
-          <button type="button" class="btn btn-outline btn-block btn-sm mt-2" (click)="setMode('login')">
+          <button
+            type="button"
+            class="btn btn-outline btn-block btn-sm mt-2"
+            (click)="setMode('login')"
+          >
             <i class="fa-solid fa-arrow-left"></i> Back to Sign In
           </button>
         </form>
       </div>
-
     </div>
 
     <div *ngIf="step() === 'otp'" class="otp-verification animate-fade-in">
@@ -126,12 +142,17 @@
           <i class="fa-solid fa-envelope-open-text"></i>
         </div>
         <h4>Check Your Email</h4>
-        <p>We've sent a 6-digit passcode to <strong>{{ email }}</strong>. Enter it below to proceed.</p>
+        <p>
+          We've sent a 6-digit passcode to <strong>{{ email }}</strong
+          >. Enter it below to proceed.
+        </p>
       </div>
 
       <form (submit)="onSubmitOTP()">
         <div class="form-group">
-          <label class="form-label" style="text-align: center; display: block;">6-Digit OTP Verification Code</label>
+          <label class="form-label" style="text-align: center; display: block"
+            >6-Digit OTP Verification Code</label
+          >
           <input
             type="text"
             class="form-control otp-box"
@@ -141,7 +162,7 @@
             name="otpCode"
             required
             autofocus
-            style="text-align: center; font-size: 1.5rem; letter-spacing: 4px; font-weight: 700;"
+            style="text-align: center; font-size: 1.5rem; letter-spacing: 4px; font-weight: 700"
           />
         </div>
 
@@ -162,12 +183,8 @@
         </div>
 
         <button type="submit" class="btn btn-secondary btn-block mt-3" [disabled]="loading()">
-          <span *ngIf="!loading()">
-            <i class="fa-solid fa-rotate"></i> Reset Password
-          </span>
-          <span *ngIf="loading()">
-            <i class="fa-solid fa-spinner fa-spin"></i> Resetting...
-          </span>
+          <span *ngIf="!loading()"> <i class="fa-solid fa-rotate"></i> Reset Password </span>
+          <span *ngIf="loading()"> <i class="fa-solid fa-spinner fa-spin"></i> Resetting... </span>
         </button>
 
         <button type="button" class="btn btn-outline btn-block btn-sm mt-2" (click)="resetToForm()">
@@ -175,6 +192,5 @@
         </button>
       </form>
     </div>
-
   </div>
 </div>

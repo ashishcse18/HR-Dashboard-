@@ -9,7 +9,11 @@
         <p>Select a company directory to access predefined document templates</p>
       </div>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="openAddModal()" [appTooltip]="'Create custom company templates folder'">
+    <button
+      class="btn btn-secondary btn-sm"
+      (click)="openAddModal()"
+      [appTooltip]="'Create custom company templates folder'"
+    >
       <i class="fa-solid fa-plus"></i> Add Company
     </button>
   </div>
@@ -24,7 +28,11 @@
         [appTooltip]="'Browse templates for ' + folder.name"
       >
         <div class="folder-header">
-          <div class="folder-icon-wrapper" [style.background-color]="folder.color + '15'" [style.color]="folder.color">
+          <div
+            class="folder-icon-wrapper"
+            [style.background-color]="folder.color + '15'"
+            [style.color]="folder.color"
+          >
             <i class="fa-solid" [ngClass]="folder.logo"></i>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -44,12 +52,10 @@
         </div>
 
         <h3 class="folder-title">{{ folder.name }}</h3>
-        <p class="folder-description">{{ folder.description | shorten:75 }}</p>
+        <p class="folder-description">{{ folder.description | shorten: 75 }}</p>
 
         <div class="folder-footer">
-          <span class="badge badge-primary">
-            {{ getTemplateCount(folder.id) }} Templates
-          </span>
+          <span class="badge badge-primary"> {{ getTemplateCount(folder.id) }} Templates </span>
           <span class="action-text">
             Browse Directory <i class="fa-solid fa-arrow-right-long"></i>
           </span>
@@ -70,14 +76,25 @@
             type="text"
             id="comp-name"
             class="form-control"
-            [class.is-invalid]="companyForm.get('name')?.invalid && companyForm.get('name')?.touched"
+            [class.is-invalid]="
+              companyForm.get('name')?.invalid && companyForm.get('name')?.touched
+            "
             placeholder="e.g. Star Labs"
             formControlName="name"
           />
-          <div class="invalid-feedback" *ngIf="companyForm.get('name')?.invalid && companyForm.get('name')?.touched">
-            <span *ngIf="companyForm.get('name')?.errors?.['required']">Company name is required.</span>
-            <span *ngIf="companyForm.get('name')?.errors?.['minlength']">Must be at least 3 characters.</span>
-            <span *ngIf="companyForm.get('name')?.errors?.['maxlength']">Cannot exceed 30 characters.</span>
+          <div
+            class="invalid-feedback"
+            *ngIf="companyForm.get('name')?.invalid && companyForm.get('name')?.touched"
+          >
+            <span *ngIf="companyForm.get('name')?.errors?.['required']"
+              >Company name is required.</span
+            >
+            <span *ngIf="companyForm.get('name')?.errors?.['minlength']"
+              >Must be at least 3 characters.</span
+            >
+            <span *ngIf="companyForm.get('name')?.errors?.['maxlength']"
+              >Cannot exceed 30 characters.</span
+            >
           </div>
         </div>
         <div class="form-group">
@@ -85,28 +102,34 @@
           <textarea
             id="comp-desc"
             class="form-control"
-            [class.is-invalid]="companyForm.get('description')?.invalid && companyForm.get('description')?.touched"
+            [class.is-invalid]="
+              companyForm.get('description')?.invalid && companyForm.get('description')?.touched
+            "
             rows="2"
             placeholder="e.g. Research and development templates"
             formControlName="description"
           ></textarea>
-          <div class="invalid-feedback" *ngIf="companyForm.get('description')?.invalid && companyForm.get('description')?.touched">
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              companyForm.get('description')?.invalid && companyForm.get('description')?.touched
+            "
+          >
             <span>Description cannot exceed 100 characters.</span>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label" for="comp-color">Brand Accent Color</label>
           <div class="d-flex gap-3 align-items-center">
-            <input
-              type="color"
-              id="comp-color"
-              class="color-picker"
-              formControlName="color"
-            />
+            <input type="color" id="comp-color" class="color-picker" formControlName="color" />
             <span class="color-text">{{ companyForm.get('color')?.value }}</span>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block mt-4" [disabled]="companyForm.invalid">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block mt-4"
+          [disabled]="companyForm.invalid"
+        >
           <i class="fa-solid fa-circle-plus"></i> Save Company
         </button>
       </form>
@@ -120,12 +143,11 @@
       </div>
       <h3 class="confirm-title">Delete Company Folder?</h3>
       <p class="confirm-message">
-        Are you sure you want to delete this company and all its associated document templates? This action is permanent and cannot be undone.
+        Are you sure you want to delete this company and all its associated document templates? This
+        action is permanent and cannot be undone.
       </p>
       <div class="d-flex gap-3 mt-4 width-full">
-        <button class="btn btn-secondary flex-1" (click)="closeConfirm()">
-          Cancel
-        </button>
+        <button class="btn btn-secondary flex-1" (click)="closeConfirm()">Cancel</button>
         <button class="btn btn-danger flex-1" (click)="onConfirmDelete()">
           <i class="fa-solid fa-trash-can"></i> Delete
         </button>

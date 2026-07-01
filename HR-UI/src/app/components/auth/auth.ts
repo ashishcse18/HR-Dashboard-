@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './auth.html',
-  styleUrl: './auth.css'
+  styleUrl: './auth.css',
 })
 export class AuthComponent {
   private readonly authService = inject(AuthService);
@@ -51,7 +51,7 @@ export class AuthComponent {
     this.alertMessage.set(null);
 
     let request$: Observable<{ success: boolean; message: string; user?: UserSession }>;
-    
+
     if (this.mode() === 'forgot') {
       request$ = this.authService.requestResetOTP(this.email);
     } else {
@@ -80,7 +80,7 @@ export class AuthComponent {
       error: () => {
         this.loading.set(false);
         this.showAlert('An unexpected error occurred.', 'error');
-      }
+      },
     });
   }
 
@@ -127,7 +127,7 @@ export class AuthComponent {
       error: () => {
         this.loading.set(false);
         this.showAlert('An unexpected error occurred.', 'error');
-      }
+      },
     });
   }
 

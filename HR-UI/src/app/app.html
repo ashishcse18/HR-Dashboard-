@@ -1,9 +1,10 @@
 <!-- If User is Authenticated, Show Portal -->
+ 
 <div class="app-layout" [class.sidebar-active]="sidebarOpen()" *ngIf="authService.isAuthenticated()">
 
   <div class="sidebar-backdrop" *ngIf="sidebarOpen()" (click)="toggleSidebar()"></div>
 
-]  <aside class="app-sidebar">
+ <aside class="app-sidebar">
     <div class="sidebar-brand">
       <div class="brand-logo-round">
         <img src="assets/logo.png" alt="TVM Logo" />

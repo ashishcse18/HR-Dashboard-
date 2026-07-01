@@ -1,5 +1,4 @@
 <div class="editor-container animate-fade-in">
-
   <div class="editor-toolbar card">
     <div class="toolbar-left">
       <button class="btn btn-outline btn-sm" (click)="goBack()">
@@ -33,16 +32,24 @@
       <button class="tool-btn" title="Insert Table" (click)="insertTable()">
         <i class="fa-solid fa-table"></i>
       </button>
-      <button class="tool-btn text-danger" title="Clear Formatting" (click)="execCommand('removeFormat')">
+      <button
+        class="tool-btn text-danger"
+        title="Clear Formatting"
+        (click)="execCommand('removeFormat')"
+      >
         <i class="fa-solid fa-eraser"></i>
       </button>
     </div>
 
     <div class="toolbar-right">
       <div class="zoom-controls">
-        <button class="zoom-btn" (click)="adjustZoom(-10)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <button class="zoom-btn" (click)="adjustZoom(-10)" title="Zoom Out">
+          <i class="fa-solid fa-magnifying-glass-minus"></i>
+        </button>
         <span class="zoom-text">{{ zoom }}%</span>
-        <button class="zoom-btn" (click)="adjustZoom(10)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button class="zoom-btn" (click)="adjustZoom(10)" title="Zoom In">
+          <i class="fa-solid fa-magnifying-glass-plus"></i>
+        </button>
       </div>
 
       <button class="btn btn-outline btn-sm" (click)="triggerPreview.emit()">
@@ -51,7 +58,8 @@
 
       <div class="download-dropdown">
         <button class="btn btn-primary btn-sm" (click)="toggleDropdown()">
-          <i class="fa-solid fa-download"></i> Download <i class="fa-solid fa-chevron-down text-xs"></i>
+          <i class="fa-solid fa-download"></i> Download
+          <i class="fa-solid fa-chevron-down text-xs"></i>
         </button>
 
         <div class="dropdown-menu" *ngIf="dropdownOpen">
@@ -61,7 +69,11 @@
           <a class="dropdown-item" (click)="downloadWordHTML()">
             <i class="fa-solid fa-file-word text-primary"></i> Download MS Word (.doc)
           </a>
-          <a class="dropdown-item" (click)="downloadNativeDocx()" *ngIf="!docService.isUploadedDocument()">
+          <a
+            class="dropdown-item"
+            (click)="downloadNativeDocx()"
+            *ngIf="!docService.isUploadedDocument()"
+          >
             <i class="fa-solid fa-file-invoice text-secondary"></i> Download Native DOCX
           </a>
         </div>
@@ -70,7 +82,6 @@
   </div>
 
   <div class="editor-workspace">
-
     <div class="form-panel card">
       <div class="panel-header">
         <h3>Document Fields</h3>
@@ -81,7 +92,10 @@
         @if (getVariablesList().length === 0) {
           <div class="no-fields">
             <i class="fa-solid fa-circle-info"></i>
-            <p>No dynamic variables detected in this document. You can type directly in the editor on the right.</p>
+            <p>
+              No dynamic variables detected in this document. You can type directly in the editor on
+              the right.
+            </p>
           </div>
         } @else {
           <form (submit)="$event.preventDefault()">
@@ -133,27 +147,43 @@
       </div>
 
       <div class="panel-footer" *ngIf="docService.selectedTypeId() === 'payslip'">
-
-        <div class="payslip-row-adder" style="margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px dashed rgba(89, 116, 163, 0.2);">
-          <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
+        <div
+          class="payslip-row-adder"
+          style="
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px dashed rgba(89, 116, 163, 0.2);
+          "
+        >
+          <h4
+            style="
+              font-size: 0.9rem;
+              color: var(--primary);
+              margin-bottom: 0.75rem;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              font-weight: 700;
+            "
+          >
             <i class="fa-solid fa-square-plus"></i> Add Row Particular
           </h4>
-          <div class="form-group" style="margin-bottom: 0.5rem;">
+          <div class="form-group" style="margin-bottom: 0.5rem">
             <input
               type="text"
               class="form-control"
               placeholder="e.g. Medical Allowance"
               [(ngModel)]="newParticularName"
               name="newParticularName"
-              style="font-size: 0.8rem; padding: 6px 10px; min-height: auto; height: 32px;"
+              style="font-size: 0.8rem; padding: 6px 10px; min-height: auto; height: 32px"
             />
           </div>
-          <div class="form-group" style="margin-bottom: 0.75rem;">
+          <div class="form-group" style="margin-bottom: 0.75rem">
             <select
               class="form-control"
               [(ngModel)]="newParticularType"
               name="newParticularType"
-              style="font-size: 0.8rem; padding: 6px 10px; min-height: auto; height: 32px;"
+              style="font-size: 0.8rem; padding: 6px 10px; min-height: auto; height: 32px"
             >
               <option value="earning">Earning Particular</option>
               <option value="deduction">Deduction Particular</option>
@@ -163,7 +193,7 @@
             type="button"
             class="btn btn-secondary btn-sm btn-block"
             (click)="addParticularRow()"
-            style="font-size: 0.8rem; padding: 6px; width: 100%;"
+            style="font-size: 0.8rem; padding: 6px; width: 100%"
           >
             <i class="fa-solid fa-plus"></i> Add Particular
           </button>
@@ -194,7 +224,7 @@
         class="paper-sheet"
         contenteditable="true"
         (input)="onEditorInput($event)"
-        [style.transform]="'scale(' + (zoom / 100) + ')'"
+        [style.transform]="'scale(' + zoom / 100 + ')'"
         [style.transform-origin]="'top center'"
       ></div>
     </div>

@@ -1,4 +1,13 @@
-import { Component, inject, OnInit, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DocumentService } from '../../services/document.service';
@@ -9,7 +18,7 @@ import { DownloadService } from '../../services/download.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './online-editor.html',
-  styleUrl: './online-editor.css'
+  styleUrl: './online-editor.css',
 })
 export class OnlineEditorComponent implements OnInit, AfterViewInit {
   public readonly docService = inject(DocumentService);
@@ -77,7 +86,7 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
 
   public getVariablesList(): string[] {
     const vars = this.docService.activeVariables();
-    return Object.keys(vars).filter(key => {
+    return Object.keys(vars).filter((key) => {
       if (this.docService.selectedTypeId() === 'payslip') {
         return !['totalEarnings', 'totalDeductions', 'netSalary', 'netSalaryWords'].includes(key);
       }
@@ -86,7 +95,7 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
   }
 
   public formatLabel(key: string): string {
-    const result = key.replace(/([A-Z])/g, " $1");
+    const result = key.replace(/([A-Z])/g, ' $1');
     return result.charAt(0).toUpperCase() + result.slice(1);
   }
 
@@ -95,7 +104,17 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
   }
 
   public isNumberField(key: string): boolean {
-    const numFields = ['salary', 'basic', 'hra', 'conveyance', 'special', 'pf', 'pt', 'tax', 'daysWorked'];
+    const numFields = [
+      'salary',
+      'basic',
+      'hra',
+      'conveyance',
+      'special',
+      'pf',
+      'pt',
+      'tax',
+      'daysWorked',
+    ];
     return numFields.includes(key);
   }
 
@@ -112,7 +131,7 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
   private updateSpanInEditor(key: string, value: string) {
     if (!this.pageElement) return;
     const spans = this.pageElement.nativeElement.querySelectorAll(`.doc-var[data-var="${key}"]`);
-    spans.forEach(span => {
+    spans.forEach((span) => {
       (span as HTMLElement).innerText = value;
     });
     this.saveEditorContent();
@@ -121,7 +140,7 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
   public onEditorInput(event: Event) {
     const target = event.target as HTMLElement;
     const spans = target.querySelectorAll('.doc-var');
-    spans.forEach(span => {
+    spans.forEach((span) => {
       const key = span.getAttribute('data-var');
       const val = (span as HTMLElement).innerText;
       if (key) {
@@ -149,11 +168,14 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
     let html = this.docService.activeHtml();
     const vars = this.docService.activeVariables();
 
-    Object.keys(vars).forEach(key => {
+    Object.keys(vars).forEach((key) => {
       const placeholder = `{{${key}}}`;
       const value = vars[key] || '';
       const regex = new RegExp(placeholder.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
-      html = html.replace(regex, `<span class="doc-var" data-var="${key}" contenteditable="true">${value}</span>`);
+      html = html.replace(
+        regex,
+        `<span class="doc-var" data-var="${key}" contenteditable="true">${value}</span>`,
+      );
     });
 
     this.pageElement.nativeElement.innerHTML = html;
@@ -174,11 +196,16 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
     const sheet = this.pageElement.nativeElement;
     sheet.classList.add('rendering-pdf');
 
-    await this.downloadService.downloadAsPDF(this.pageElement.nativeElement.id || 'editor-sheet-print', name);
+    await this.downloadService.downloadAsPDF(
+      this.pageElement.nativeElement.id || 'editor-sheet-print',
+      name,
+    );
     this.docService.incrementDownloads();
 
     sheet.classList.remove('rendering-pdf');
-    if (btn) btn.innerHTML = '<i class="fa-solid fa-download"></i> Download <i class="fa-solid fa-chevron-down text-xs"></i>';
+    if (btn)
+      btn.innerHTML =
+        '<i class="fa-solid fa-download"></i> Download <i class="fa-solid fa-chevron-down text-xs"></i>';
   }
 
   public downloadWordHTML() {
@@ -186,7 +213,10 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
     const name = this.docService.activeTemplateName();
     let printHTML = this.pageElement.nativeElement.innerHTML;
     printHTML = printHTML.replace(/contenteditable="true"/g, '');
-    printHTML = printHTML.replace(/class="doc-var"/g, 'style="font-weight: 600; border-bottom: none;"');
+    printHTML = printHTML.replace(
+      /class="doc-var"/g,
+      'style="font-weight: 600; border-bottom: none;"',
+    );
 
     printHTML = printHTML.replace(/padding:\s*40px/g, 'padding: 0px');
     printHTML = printHTML.replace(/padding:\s*30px/g, 'padding: 0px');
@@ -285,8 +315,40 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
   }
 
   private numberToWords(num: number): string {
-    const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
-    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    const a = [
+      '',
+      'One ',
+      'Two ',
+      'Three ',
+      'Four ',
+      'Five ',
+      'Six ',
+      'Seven ',
+      'Eight ',
+      'Nine ',
+      'Ten ',
+      'Eleven ',
+      'Twelve ',
+      'Thirteen ',
+      'Fourteen ',
+      'Fifteen ',
+      'Sixteen ',
+      'Seventeen ',
+      'Eighteen ',
+      'Nineteen ',
+    ];
+    const b = [
+      '',
+      '',
+      'Twenty',
+      'Thirty',
+      'Forty',
+      'Fifty',
+      'Sixty',
+      'Seventy',
+      'Eighty',
+      'Ninety',
+    ];
 
     if ((num = Math.floor(num)) === 0) return 'Zero';
 
@@ -294,11 +356,31 @@ export class OnlineEditorComponent implements OnInit, AfterViewInit {
     if (!n) return '';
 
     let str = '';
-    str += Number(n[1]) != 0 ? (a[Number(n[1])] || b[Number(n[1].substr(0, 1))] + ' ' + a[Number(n[1].substr(1))]) + 'Crore ' : '';
-    str += Number(n[2]) != 0 ? (a[Number(n[2])] || b[Number(n[2].substr(0, 1))] + ' ' + a[Number(n[2].substr(1))]) + 'Lakh ' : '';
-    str += Number(n[3]) != 0 ? (a[Number(n[3])] || b[Number(n[3].substr(0, 1))] + ' ' + a[Number(n[3].substr(1))]) + 'Thousand ' : '';
-    str += Number(n[4]) != 0 ? (a[Number(n[4])] || b[Number(n[4].substr(0, 1))] + ' ' + a[Number(n[4].substr(1))]) + 'Hundred ' : '';
-    str += Number(n[5]) != 0 ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[Number(n[5].substr(0, 1))] + ' ' + a[Number(n[5].substr(1))]) : '';
+    str +=
+      Number(n[1]) != 0
+        ? (a[Number(n[1])] || b[Number(n[1].substr(0, 1))] + ' ' + a[Number(n[1].substr(1))]) +
+          'Crore '
+        : '';
+    str +=
+      Number(n[2]) != 0
+        ? (a[Number(n[2])] || b[Number(n[2].substr(0, 1))] + ' ' + a[Number(n[2].substr(1))]) +
+          'Lakh '
+        : '';
+    str +=
+      Number(n[3]) != 0
+        ? (a[Number(n[3])] || b[Number(n[3].substr(0, 1))] + ' ' + a[Number(n[3].substr(1))]) +
+          'Thousand '
+        : '';
+    str +=
+      Number(n[4]) != 0
+        ? (a[Number(n[4])] || b[Number(n[4].substr(0, 1))] + ' ' + a[Number(n[4].substr(1))]) +
+          'Hundred '
+        : '';
+    str +=
+      Number(n[5]) != 0
+        ? (str != '' ? 'and ' : '') +
+          (a[Number(n[5])] || b[Number(n[5].substr(0, 1))] + ' ' + a[Number(n[5].substr(1))])
+        : '';
     return str.trim();
   }
 }

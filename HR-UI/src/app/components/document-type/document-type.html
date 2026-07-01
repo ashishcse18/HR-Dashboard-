@@ -1,0 +1,48 @@
+<div class="doc-type-section animate-fade-in" *ngIf="docService.selectedFolderId()">
+  <div class="section-header">
+    <div class="header-icon">
+      <i class="fa-solid fa-file-invoice"></i>
+    </div>
+
+    <div>
+      <h2>Document Category</h2>
+
+      <p>
+        Filter templates within
+        <strong>{{ docService.selectedFolder()?.name }}</strong>
+        directory
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-4 mt-3">
+    @for (type of docService.documentTypes(); track type.id) {
+      <div
+        class="type-tab card card-hover"
+        [class.active]="docService.selectedTypeId() === type.id"
+        (click)="selectType(type.id)"
+      >
+        <div
+          class="type-icon-wrapper"
+          [class.active-icon]="docService.selectedTypeId() === type.id"
+        >
+          <i class="fa-solid" [ngClass]="type.icon"> </i>
+        </div>
+
+        <div class="type-meta">
+          <h4 class="type-name">
+            {{ type.name }}
+          </h4>
+
+          <p class="type-desc">
+            {{ type.description }}
+          </p>
+        </div>
+
+        <div class="badge-count" *ngIf="getTemplateCount(type.id) > 0">
+          {{ getTemplateCount(type.id) }}
+        </div>
+      </div>
+    }
+  </div>
+</div>

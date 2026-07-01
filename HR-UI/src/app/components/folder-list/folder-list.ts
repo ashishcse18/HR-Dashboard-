@@ -10,7 +10,7 @@ import { ShortenPipe } from '../../pipes/shorten.pipe';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TooltipDirective, ShortenPipe],
   templateUrl: './folder-list.html',
-  styleUrl: './folder-list.css'
+  styleUrl: './folder-list.css',
 })
 export class FolderListComponent {
   public readonly docService = inject(DocumentService);
@@ -21,7 +21,7 @@ export class FolderListComponent {
   public companyForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     description: ['', [Validators.maxLength(100)]],
-    color: ['#2563eb']
+    color: ['#2563eb'],
   });
 
   public selectFolder(folderId: string) {
@@ -29,7 +29,7 @@ export class FolderListComponent {
   }
 
   public getTemplateCount(folderId: string): number {
-    return this.docService.templates().filter(t => t.companyId === folderId).length;
+    return this.docService.templates().filter((t) => t.companyId === folderId).length;
   }
 
   public openAddModal() {
@@ -37,7 +37,7 @@ export class FolderListComponent {
     this.companyForm.reset({
       name: '',
       description: '',
-      color: '#2563eb'
+      color: '#2563eb',
     });
   }
 
@@ -50,11 +50,7 @@ export class FolderListComponent {
     if (this.companyForm.invalid) return;
 
     const { name, description, color } = this.companyForm.value;
-    this.docService.addCompany(
-      name.trim(),
-      description ? description.trim() : '',
-      color
-    );
+    this.docService.addCompany(name.trim(), description ? description.trim() : '', color);
     this.isModalOpen = false;
   }
 
