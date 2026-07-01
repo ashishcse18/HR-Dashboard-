@@ -1,68 +1,69 @@
-# 📄 HR Document Template Dashboard
+# HR Document Template Dashboard
 
-An Enterprise HR Document Management System built with **Angular** and **Spring Boot** that enables HR teams to create, edit, preview, and download professional employee documents efficiently.
+An Enterprise HR Document Management System built using **Angular** and **Spring Boot** that enables HR teams to create, edit, preview, and download professional employee documents.
 
 The application provides company-wise template management with an integrated online editor, allowing HR users to generate Offer Letters, Relieving Letters, Service Certificates, and Payslips with dynamic employee information.
 
 ---
 
-## 🚀 Features
+# Features
 
-### 📋 HR Dashboard
+## HR Dashboard
+
 - Modern and responsive dashboard
 - Company-wise template management
-- Search templates instantly
+- Template search
 - Download statistics
 - Activity log
 
-### 📁 Company Template Management
+## Company Template Management
+
 - TVM Templates
 - Asminds Templates
-- Easy folder navigation
+- Folder-wise template organization
 - Multiple document categories
 
-### 📄 Document Types
+## Supported Documents
+
 - Offer Letter
 - Relieving Letter
 - Service Certificate
 - Payslip
 
-### ✏️ Online Document Editor
+## Online Document Editor
+
 - Rich text editing
 - Dynamic placeholder replacement
 - Live editing
 - Professional formatting
 - Real-time preview
 
-### 📤 Upload Documents
+## Upload & Edit Documents
+
 - Upload Word (.docx) files
 - Upload PDF files
 - Edit uploaded documents
 - Preview before download
 
-### 👀 Live Preview
-- A4 document preview
-- Professional formatting
-- Print-ready layout
+## Download Options
 
-### 📥 Download Options
 - Export as PDF
 - Export as DOCX
 - High-quality document generation
 
 ---
 
-# 🏗️ Project Architecture
+# Project Architecture
 
 ```
 HR-Template-Dashboard
 │
-├── HR-BE                # Spring Boot Backend
+├── HR-BE
 │   ├── src
 │   ├── pom.xml
 │   └── ...
 │
-├── HR-UI                # Angular Frontend
+├── HR-UI
 │   ├── src
 │   ├── assets
 │   ├── package.json
@@ -73,7 +74,7 @@ HR-Template-Dashboard
 
 ---
 
-# 🛠️ Tech Stack
+# Technology Stack
 
 ## Frontend
 
@@ -82,8 +83,8 @@ HR-Template-Dashboard
 - Angular Material
 - HTML5
 - CSS3
-- Font Awesome
 - Angular Signals
+- Font Awesome
 
 ## Backend
 
@@ -101,45 +102,42 @@ HR-Template-Dashboard
 
 - html2pdf.js
 - jsPDF
-- FileSaver.js
 - Mammoth.js
 - PDF.js
+- FileSaver.js
 
 ---
 
-# 📌 Workflow
+# Application Workflow
 
 ```
 Login
-      │
-      ▼
+   │
+   ▼
 HR Dashboard
-      │
-      ▼
+   │
+   ▼
 Select Company
-      │
-      ▼
+   │
+   ▼
 Select Document Type
-      │
-      ▼
+   │
+   ▼
 Select Template
-      │
-      ▼
+   │
+   ▼
 Edit Required Fields
-      │
-      ▼
-Online Editor
-      │
-      ▼
+   │
+   ▼
 Preview
-      │
-      ▼
+   │
+   ▼
 Download PDF / DOCX
 ```
 
 ---
 
-# 📂 Supported Templates
+# Supported Companies
 
 ## TVM
 
@@ -157,22 +155,22 @@ Download PDF / DOCX
 
 ---
 
-# ✨ Key Functionalities
+# Core Functionalities
 
 - Company-wise document templates
-- Dynamic variable replacement
-- Rich text editing
-- Document preview
-- Download as PDF
-- Download as DOCX
+- Dynamic placeholder replacement
+- Rich text editor
+- Live document preview
+- PDF export
+- DOCX export
 - Upload custom documents
-- Search templates
-- Download statistics
+- Template search
+- Download analytics
 - Activity history
 
 ---
 
-# ⚙️ Installation
+# Installation
 
 ## Clone Repository
 
@@ -182,25 +180,15 @@ git clone https://github.com/ashishcse18/HTD.git
 
 ---
 
-## Frontend Setup
+## Frontend
 
 ```bash
 cd HR-UI
-```
-
-Install dependencies
-
-```bash
 npm install
-```
-
-Run Angular
-
-```bash
 ng serve
 ```
 
-Application
+Application URL
 
 ```
 http://localhost:4200
@@ -208,19 +196,14 @@ http://localhost:4200
 
 ---
 
-## Backend Setup
+## Backend
 
 ```bash
 cd HR-BE
-```
-
-Run Spring Boot
-
-```bash
 mvn spring-boot:run
 ```
 
-Backend
+Backend URL
 
 ```
 http://localhost:8080
@@ -228,53 +211,71 @@ http://localhost:8080
 
 ---
 
-# 📸 Screenshots
+# Screenshots
 
-### Dashboard
+## Dashboard
 
-> Add dashboard screenshot here
+> Add Dashboard Screenshot
 
-### Online Editor
+## Online Editor
 
-> Add editor screenshot here
+> Add Online Editor Screenshot
 
-### Preview
+## Document Preview
 
-> Add preview screenshot here
+> Add Preview Screenshot
 
-### Payslip
+## Payslip
 
-> Add payslip screenshot here
+> Add Payslip Screenshot
 
 ---
 
-# 📈 Future Enhancements
+# Future Enhancements
 
 - Spring Security Authentication
 - Role-Based Access Control (RBAC)
-- Digital Signature Support
-- Email Document to Employee
+- Digital Signature Integration
+- Email Document to Employees
 - Template Version Management
 - Cloud Storage Integration
 - Bulk Document Generation
 - Audit Logs
 - Multi-language Support
-- Company Logo Upload
+- Company Logo Management
 
 ---
 
-# 👨‍💻 Author
+# Contributors
 
-**Ashish Kumar Yadav** ,
-**Vignesh P**
+## Ashish Kumar Yadav
 
-GitHub: https://github.com/ashishcse18
+**GitHub**
 
-LinkedIn: https://www.linkedin.com/in/ashish-kumar-yadav--/
+https://github.com/ashishcse18
 
+**LinkedIn**
+
+https://www.linkedin.com/in/ashish-kumar-yadav-071791247/
 
 ---
 
-# ⭐ If you like this project
+## Vignesh P
 
-Give this repository a ⭐ on GitHub.
+**GitHub**
+
+https://github.com/vignesh563
+
+**LinkedIn**
+
+https://www.linkedin.com/in/vignesh-p-292224368/
+
+---
+
+# License
+
+This project is developed for educational and enterprise learning purposes.
+
+---
+
+If you find this project useful, consider giving the repository a **Star**.
