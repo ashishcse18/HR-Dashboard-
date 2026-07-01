@@ -269,7 +269,8 @@ http://localhost:8080
 
 GitHub: https://github.com/ashishcse18
 
-LinkedIn: https://www.linkedin.com/in/ashish-kumar-yadav-071791247/
+LinkedIn: https://www.linkedin.com/in/ashish-kumar-yadav--/
+
 
 ---
 
