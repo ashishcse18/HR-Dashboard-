@@ -256,7 +256,7 @@ https://github.com/ashishcse18
 
 **LinkedIn**
 
-https://www.linkedin.com/in/ashish-kumar-yadav-071791247/
+https://www.linkedin.com/in/ashish-kumar--/
 
 ---
 
